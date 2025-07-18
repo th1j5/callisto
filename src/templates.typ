@@ -1,4 +1,5 @@
 #import "reading.typ": *
+#import "@preview/ansi-render:0.8.0": *
 
 #let _count-string(count) = if count == none { return " " } else { str(count) }
 
@@ -51,7 +52,8 @@
 // Wrap some outputs in a raw block
 #let _notebook-output-value(out) = {
   if out.type == "error" {
-    return raw(block: true, lang: "txt", out.traceback.join("\n"))
+    //return raw(block: true, lang: "txt", out.traceback.join("\n"))
+    return ansi-render(out.traceback.join("\n"), font: none, theme: terminal-themes.tango-light)
   }
   if out.type == "stream" or out.format == "text/plain" {
     return raw(block: true, lang: "txt", out.value)
